@@ -6,6 +6,7 @@ const typeDefs = `
         id: ID!
         url: String!
         description: String!
+        postedBy: User
     }
 
     type User {
@@ -21,6 +22,12 @@ const typeDefs = `
     type Mutation {
         createLink(url: String!, description: String!): Link
         createUser(name: String!, authProvider: AuthProviderSignupData!): User
+        signinUser(email: AUTH_PROVIDER_EMAIL): SigninPayload!
+    }
+
+    type SigninPayload {
+        token: String
+        user: User
     }
 
     input AuthProviderSignupData {
