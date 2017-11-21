@@ -59,8 +59,8 @@ module.exports = {
     },
     Link: { 
         id: resolveId,
-        postedBy: async ({ postedById }, data, { mongo: { Users }}) => {
-            return await Users.findOne({ _id: postedById });
+        postedBy: async ({ postedById }, data, { dataloaders: { userLoader }}) => {
+            return await userLoader.load(postedById);
         },
         votes: async ({ _id }, data, { mongo: { Votes }}) => {
             return await Votes.find({ linkId: _id }).toArray();
@@ -68,8 +68,8 @@ module.exports = {
     },
     Vote: {
         id: resolveId,
-        user: async ({ userId }, data, { mongo: { Users }}) => {
-            return await Users.findOne({ _id: userId });
+        user: async ({ userId }, data, { dataloaders: { userLoader }}) => {
+            return await userLoader.load(userId);
         },
         link: async ({ linkId }, data, { mongo: { Links }}) => {
             return await Links.findOne({ _id: linkId });

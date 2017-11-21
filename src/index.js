@@ -4,6 +4,8 @@ const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const schema = require('./schema');
 const connectMongo = require('./mongo-connector');
 const { authenticate } = require('./authentication');
+const buildDataLoaders = require('./dataloader');
+
 const start = async () => {
     const mongo = await connectMongo();
     const app = express();
@@ -11,7 +13,11 @@ const start = async () => {
     const buildOptions = async (req, res) => {
         const user = await authenticate(req, mongo.Users);
         return {
-            context: { mongo, user }, 
+            context: { 
+                dataloaders: buildDataLoaders(mongo),
+                mongo, 
+                user,
+            }, 
             schema,
         }
     };
