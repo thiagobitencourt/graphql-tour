@@ -5,6 +5,7 @@ const schema = require('./schema');
 const connectMongo = require('./mongo-connector');
 const { authenticate } = require('./authentication');
 const buildDataLoaders = require('./dataloader');
+const formatError = require('./formatError');
 
 const start = async () => {
     const mongo = await connectMongo();
@@ -18,6 +19,7 @@ const start = async () => {
                 mongo, 
                 user,
             }, 
+            formatError,
             schema,
         }
     };
