@@ -40,6 +40,25 @@ const typeDefs = `
         user: User
     }
 
+    type Subscription {
+        Link(filter: LinkSubscriptionFilter): LinkSubscriptionPayload
+    }
+
+    input LinkSubscriptionFilter {
+        mutation_in: [_ModelMutationType!]
+    }
+
+    type LinkSubscriptionPayload {
+        mutation: _ModelMutationType!
+        node: Link
+    }
+
+    enum _ModelMutationType {
+        CREATED
+        UPDATED
+        DELETED
+    }
+
     input AuthProviderSignupData {
         email: AUTH_PROVIDER_EMAIL
     }
