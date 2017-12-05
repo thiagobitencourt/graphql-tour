@@ -58,9 +58,16 @@ module.exports = {
         }
     },
     Query: {
-        allLinks: async (root, { filter }, { mongo: { Links }}) => {
+        allLinks: async (root, { filter, first, skip }, { mongo: { Links }}) => {
             let query = filter ? { $or: buildFilters(filter)} : {};
-            return await Links.find(query).toArray();
+            const cursor = Links.find(query);
+            if(first) {
+                cursor.limit(first);
+            }
+            if(skip) {
+                cursor.skip(skip);
+            }
+            return cursor.toArray();
         }
     },
     Mutation: {
